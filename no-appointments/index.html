@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Veyo - COI</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+</head>
+<body>
+
+  <header>
+
+    <div style="font-weight: 900; font-size: 24px; position: absolute; top: 24px; left: 30px;">veyo</div>
+
+    <nav>
+
+      <ul>
+        <li>My Carers</li>
+        <li>Invoices</li>
+        <li>Notifications</li>
+      </ul>
+
+    </nav>
+
+  </header>
+
+  <main>
+
+    <div class="calendar--wrapper">
+      <div>
+        <div class="calendar--container">
+
+          <h1 class="calendar--title">October</h1>
+
+          <ul>
+
+            <div class="calendar--row--start"></div>
+
+            <div class="calendar--row--days">
+              <li class="calendar--day">MON</li>
+              <li class="calendar--day">TUE</li>
+              <li class="calendar--day">WED</li>
+              <li class="calendar--day">THU</li>
+              <li class="calendar--day">FRI</li>
+              <li class="calendar--day">SAT</li>
+              <li class="calendar--day">SUN</li>
+            </div>
+
+            <div class="calendar--row">
+              <li class="calendar--date__off">28</li>
+              <li class="calendar--date__off">29</li>
+              <li class="calendar--date__off">30</li>
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+              <li>4</li>
+            </div>
+
+            <div class="calendar--row">
+              <li>5</li>
+              <li>6</li>
+              <li>7</li>
+              <li>8</li>
+              <li class="will--have--date">9</li>
+              <li>10</li>
+              <li>11</li>
+            </div>
+
+            <div class="calendar--row">
+              <li>12</li>
+              <li>13</li>
+              <li>14</li>
+              <li>15</li>
+              <li>16</li>
+              <li>17</li>
+              <li>18</li>
+            </div>
+
+            <div class="calendar--row">
+              <li>19</li>
+              <li>20</li>
+              <li>21</li>
+              <li>22</li>
+              <li>23</li>
+              <li>24</li>
+              <li>25</li>
+            </div>
+
+            <div class="calendar--row">
+              <li>26</li>
+              <li>27</li>
+              <li>28</li>
+              <li>29</li>
+              <li>30</li>
+              <li>31</li>
+              <li class="calendar--date__off">1</li>
+            </div>
+
+            <div class="calendar--row--end"></div>
+
+          </ul>
+
+        </div>
+        <div class="calendar--detail--container">
+
+          <h1 style="display: inline-block;"><span id="day">Day</span>, October <span id="date">11</span></h1><input type="text" style="margin-left: 20px; width: 40px;" placeholder="start"> to <input type="text" style="width: 45px;"  placeholder="end">
+          <div class="calendar--detail--body face--front">
+
+            <a href="#" class="calendar--detail--partner--avatar">&nbsp;</a>
+            <h3 class="calendar--detail--partner">Choose a carer ▼
+                <ul class="mock--dropdown">
+                  <li><img src="img/aline_alliteration.jpg"> Aline Alliteration</li>
+                  <li><img src="img/manon_meerkat.jpg"> Manon Meerkat</li>
+                  <li><img src="img/tom_turbo.jpg">Tom Turbo</li>
+                  <li><img src="img/xavier_xtravaganza.jpg">Xavier Xtravanagza</li>
+                </ul>
+            </h3>
+
+            <p class="calendar--detail--job" contenteditable="true" data-placeholder="Enter title"></p>
+            <p class="calendar--detail--brief" contenteditable="true" data-placeholder="Click and type here to create an event brief."></p>
+
+            <a href="#" class="calendar--detail--chat">Send request</a>
+            <a href="#" class="calendar--detail--chat--secondary">Got more questions?</a>
+          </div>
+          <div class="calendar--detail--body face--back">
+
+            <p class="calendar--detail--process"><strong>Success!</strong> We have informed Tom Turbo about your request. We will notify you as soon as he answers.</p>
+
+          </div>
+        </div>
+
+
+      </div><!-- empty div -->
+    </div><!-- /.calendar--container -->
+
+  </main>
+  <button class="reset">Reset</button>
+
+  <footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+
+    var prevUntil = {},
+        nextUntil = {},
+        calendarRow = $('.calendar--row'),
+        calendarRowDays = $('.calendar--row--days'),
+        calendarDetail = $('.calendar--detail--container'),
+        calendarContainer = $('.calendar--container'),
+        calDay = $('#day')[0],
+        calDate = $('#date')[0],
+        calWeekArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        thisDate = '',
+        dateExtension = '',
+        calendarItems = $('.calendar--container ul li');
+
+    // item interactions
+    calendarItems.on('click', function() {
+
+      thisDate = $(this)[0].innerHTML;
+      thisIndex = $(this).index();
+
+      // needs new extension?
+      if (thisDate === '1' || thisDate === '21' || thisDate === '31') {
+
+        dateExtension = 'st';
+      } else if (thisDate === '2' || thisDate === '22') {
+
+        dateExtension = 'nd';
+      } else if (thisDate === '3' || thisDate === '23') {
+
+        dateExtension = 'rd';
+      } else {
+
+        dateExtension = 'th';
+      }
+
+      // set date
+      calDate.innerHTML = $(this)[0].innerHTML + dateExtension;
+
+      // set day
+      calDay.innerHTML = calWeekArray[thisIndex];
+
+    });
+
+    // row interactions
+    calendarRow.on('click', function() {
+
+      // store everything in vars
+      prevUntil = $(this).prevUntil('.calendar--row--start');
+      nextUntil = $(this).nextUntil('.calendar--row--end');
+
+      // calendar fade-out
+      $(this).removeClass().addClass('calendar--row fade-to-top');
+      prevUntil.removeClass().addClass('calendar--row fade-to-top');
+      nextUntil.removeClass().addClass('calendar--row fade-to-bottom');
+
+      // detail fade-in
+      calendarDetail.removeClass('fade-back-to-place').addClass('is-visible');
+
+      $('.calendar--container h1').addClass('is-hidden');
+
+      calendarContainer.css('z-index', '-1');
+
+    });
+
+    // detect flip end change card size
+    $('.face--back').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
+
+      console.log('stuff');
+
+    });
+
+    // on pressing send remove none class and add first message
+    $(document).keypress(function(e) {
+
+      if (e.which == 13) {
+        $('.calendar--detail--chat--send').click();
+      }
+    });
+
+    var messageCount = 0;
+    $('.calendar--detail--chat--send').on('click', function() {
+
+      var inputValue = $('input.calendar--detail--chat--input').val();
+
+      if (messageCount === 0) {
+
+        $('.calendar--detail--chat--content').empty();
+        $('.calendar--detail--chat--input').attr('placeholder', '');
+      }
+
+      $('.calendar--detail--chat--content').removeClass('no-messages').addClass('has-messages');
+      $('.calendar--detail--chat--content').append("<span class='animated fadeInUp'>" + inputValue + "</span><br>");
+
+      $('input.calendar--detail--chat--input').val('');
+
+      messageCount++;
+
+      if (messageCount === 2) {
+
+        $('.calendar--detail--job.not-typing').removeClass('not-typing').addClass('is-typing');
+
+        setTimeout(function(){
+
+          $('.calendar--detail--job.is-typing').removeClass('is-typing').addClass('not-typing');
+
+          $('.calendar--detail--chat--content--response').removeClass('no-response').addClass('has-response');
+          $('.calendar--detail--chat--content--response').append("<span class='animated fadeInUp'>" + "Hello Emma. Replenishing some vitamin C – good thinking!" + "</span><br>");
+        }, 3200);
+      }
+    });
+
+    // flip card
+    $('a.calendar--detail--chat').on('click', function(e) {
+
+      $(this).fadeOut('fast');
+      $('.calendar--detail--body').toggleClass('is-flipped');
+    });
+
+    $('button.reset').on('click', function() {
+
+      calendarRow.removeClass('fade-to-top fade-to-bottom').addClass('fade-back-to-place');
+      calendarRowDays.removeClass('fade-to-top fade-to-bottom').addClass('fade-back-to-place');
+      $('.calendar--container h1').removeClass('is-hidden');
+
+      calendarDetail.removeClass('is-visible').addClass('fade-back-to-place');
+
+      calendarContainer.css('z-index', '100');
+
+      $('.will--have--date').addClass('calendar--date__highlight');
+    });
+
+    $('.calendar--detail--brief').on('focusin', function() {
+
+      $('.calendar--detail--body').addClass('is-focused');
+    });
+
+    $('.calendar--detail--brief').on('focusout', function() {
+
+      $('.calendar--detail--body').removeClass('is-focused');
+    });
+
+    $('.highlight').on('click', function() {
+
+      $('.calendar--container ul li').not('.notification--highlight').addClass('is-transparent');
+    });
+
+    // onboarding
+
+    $('.calendar--detail--partner').one('click', function() {
+
+      $('ul.mock--dropdown').addClass('is-visible');
+    });
+
+    $('ul.mock--dropdown').on('click', function() {
+
+      $('ul.mock--dropdown').removeClass('is-visible');
+      $('.calendar--detail--partner').text('Tom Turbo')
+      $('.calendar--detail--partner--avatar').addClass('has-icon').empty().append('<img src="img/tom_turbo.jpg">')
+    });
+
+    </script>
+
+  </footer>
+
+</body>
+</html>

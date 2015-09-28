@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Veyo - COI</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+</head>
+<body>
+
+  <header>
+
+    <div style="font-weight: 900; font-size: 24px; position: absolute; top: 24px; left: 30px;">veyo</div>
+
+    <nav>
+
+      <ul>
+        <li>My Carers</li>
+        <li>Invoices</li>
+        <li>Notifications</li>
+      </ul>
+
+    </nav>
+
+    <!-- <div class="search--in--area">Searching in <span  contenteditable="true">10178</span></div>-->
+
+  </header>
+
+  <main>
+
+    <div class="calendar--wrapper" style="overflow: scroll;">
+      <div>
+        <div class="calendar--container">
+
+        <div class="search--form">
+
+          <h1>Find carers in <span class="area">your area</span></h1>
+
+          <input type="text" class="search--input" placeholder="Enter your zip code to start"/>
+          <a href="#" class="search--submit">Search</a>
+
+        </div>
+        <div class="search--results" style="margin-top: 30%;">
+
+          <h1>Search results for <span class="entered--zipcode" style="color: #fd6768; font-weight: 400;"></span></h1>
+          <ul>
+            <li class="animated delay-animation-300">
+              <img src="img/manon_meerkat.jpg" alt="Manon Meerkat Avatar" />
+
+              <div class="search--carer--details">
+                <h4>Manon Meerkat, 28</h4>
+                <p>Hey, I am a licensed carer in Wedding, Berlin.</p>
+                <a href="#">View Profile</a>
+              </div>
+
+            </li>
+            <li class="animated delay-animation-600">
+              <img src="img/tom_turbo.jpg" alt="Tom Turbo Avatar" />
+
+              <div class="search--carer--details">
+                <h4>Tom Turbo, 34</h4>
+                <p>Helping others is like flying a kite in the summer breeze.</p>
+                <a href="#">View Profile</a>
+              </div>
+
+            </li>
+            <li class="animated delay-animation-900">
+              <img src="img/xavier_xtravaganza.jpg" alt="Xavier Xtravaganza Avatar" />
+
+              <div class="search--carer--details">
+                <h4>Xavier Xtravaganza, 37</h4>
+                <p>My mission is to bring the world a Zen state of mind.</p>
+                <a href="#">View Profile</a>
+              </div>
+
+            </li>
+            <li class="animated delay-animation-1200">
+              <img src="img/aline_alliteration.jpg" alt="Aline Alliteration Avatar" />
+
+              <div class="search--carer--details">
+                <h4>Aline Alliteration, 29</h4>
+                <p>Alliteration above all.</p>
+                <a href="#">View Profile</a>
+              </div>
+
+            </li>
+          </ul>
+
+        </div>
+
+      </div><!-- empty div -->
+    </div><!-- /.calendar--container -->
+
+  </main>
+  <button class="reset">Reset</button>
+
+  <footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+
+    var prevUntil = {},
+        nextUntil = {},
+        calendarRow = $('.calendar--row'),
+        calendarRowDays = $('.calendar--row--days'),
+        calendarDetail = $('.calendar--detail--container'),
+        calendarContainer = $('.calendar--container'),
+        calDay = $('#day')[0],
+        calDate = $('#date')[0],
+        calWeekArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        thisDate = '',
+        dateExtension = '',
+        calendarItems = $('.calendar--container ul li');
+
+    // item interactions
+    calendarItems.on('click', function() {
+
+      thisDate = $(this)[0].innerHTML;
+      thisIndex = $(this).index();
+
+      // needs new extension?
+      if (thisDate === '1' || thisDate === '21' || thisDate === '31') {
+
+        dateExtension = 'st';
+      } else if (thisDate === '2' || thisDate === '22') {
+
+        dateExtension = 'nd';
+      } else if (thisDate === '3' || thisDate === '23') {
+
+        dateExtension = 'rd';
+      } else {
+
+        dateExtension = 'th';
+      }
+
+      // set date
+      calDate.innerHTML = $(this)[0].innerHTML + dateExtension;
+
+      // set day
+      calDay.innerHTML = calWeekArray[thisIndex];
+
+    });
+
+    // row interactions
+    calendarRow.on('click', function() {
+
+      // store everything in vars
+      prevUntil = $(this).prevUntil('.calendar--row--start');
+      nextUntil = $(this).nextUntil('.calendar--row--end');
+
+      // calendar fade-out
+      $(this).removeClass().addClass('calendar--row fade-to-top');
+      prevUntil.removeClass().addClass('calendar--row fade-to-top');
+      nextUntil.removeClass().addClass('calendar--row fade-to-bottom');
+
+      // detail fade-in
+      calendarDetail.removeClass('fade-back-to-place').addClass('is-visible');
+
+      $('.calendar--container h1').addClass('is-hidden');
+
+      calendarContainer.css('z-index', '-1');
+
+    });
+
+    // detect flip end change card size
+    $('.face--back').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
+
+      console.log('stuff');
+
+    });
+
+    // on pressing send remove none class and add first message
+    $(document).keypress(function(e) {
+
+      if (e.which == 13) {
+        $('.calendar--detail--chat--send').click();
+      }
+    });
+
+    var messageCount = 0;
+    $('.calendar--detail--chat--send').on('click', function() {
+
+      var inputValue = $('input.calendar--detail--chat--input').val();
+
+      if (messageCount === 0) {
+
+        $('.calendar--detail--chat--content').empty();
+        $('.calendar--detail--chat--input').attr('placeholder', '');
+      }
+
+      $('.calendar--detail--chat--content').removeClass('no-messages').addClass('has-messages');
+      $('.calendar--detail--chat--content').append("<span class='animated fadeInUp'>" + inputValue + "</span><br>");
+
+      $('input.calendar--detail--chat--input').val('');
+
+      messageCount++;
+
+      if (messageCount === 2) {
+
+        $('.calendar--detail--job.not-typing').removeClass('not-typing').addClass('is-typing');
+
+        setTimeout(function(){
+
+          $('.calendar--detail--job.is-typing').removeClass('is-typing').addClass('not-typing');
+
+          $('.calendar--detail--chat--content--response').removeClass('no-response').addClass('has-response');
+          $('.calendar--detail--chat--content--response').append("<span class='animated fadeInUp'>" + "Hello Emma. Replenishing some vitamin C – good thinking!" + "</span><br>");
+        }, 3200);
+      }
+    });
+
+    // flip card
+    $('a.calendar--detail--chat').on('click', function(e) {
+
+      $(this).fadeOut('fast');
+      $('.calendar--detail--body').toggleClass('is-flipped');
+    });
+
+    $('button.reset').on('click', function() {
+
+      calendarRow.removeClass('fade-to-top fade-to-bottom').addClass('fade-back-to-place');
+      calendarRowDays.removeClass('fade-to-top fade-to-bottom').addClass('fade-back-to-place');
+      $('.calendar--container h1').removeClass('is-hidden');
+
+      calendarDetail.removeClass('is-visible').addClass('fade-back-to-place');
+
+      calendarContainer.css('z-index', '100');
+
+      $('.will--have--date').addClass('calendar--date__highlight');
+    });
+
+    $('.calendar--detail--brief').on('focusin', function() {
+
+      $('.calendar--detail--body').addClass('is-focused');
+    });
+
+    $('.calendar--detail--brief').on('focusout', function() {
+
+      $('.calendar--detail--body').removeClass('is-focused');
+    });
+
+    $('.highlight').on('click', function() {
+
+      $('.calendar--container ul li').not('.notification--highlight').addClass('is-transparent');
+    });
+
+    // onboarding
+    $('.calendar--detail--partner').one('click', function() {
+
+      $('ul.mock--dropdown').addClass('is-visible');
+    });
+
+    $('ul.mock--dropdown').on('click', function() {
+
+      $('ul.mock--dropdown').removeClass('is-visible');
+      $('.calendar--detail--partner').text('Tom Turbo')
+      $('.calendar--detail--partner--avatar').addClass('has-icon').empty().append('<img src="img/tom_turbo.jpg">')
+    });
+
+    // search actio
+    $('.search--submit').on('click', function() {
+
+      $('body').addClass('results--in');
+
+      var searchInputValue = $('.search--input').val();
+      $('.search--form').fadeOut('slow', function() {
+
+        $('.search--results').fadeIn('fast', function() {
+
+          $('.search--results ul li').addClass('fadeInUp');
+        });
+      });
+
+      $('.search--in--area').addClass('is-visible');
+      $('.entered--zipcode').text(searchInputValue);
+    });
+
+    </script>
+
+  </footer>
+
+</body>
+</html>
