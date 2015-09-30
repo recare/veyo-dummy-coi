@@ -3,6 +3,7 @@
  */
 
 @import 'normalize';
+@import 'tooltipster';
 
 /*
  * Typography
@@ -24,11 +25,16 @@ $primary-gradient: linear-gradient(135deg, #FF867E 0%, #FD6768 80%, #FD6768 100%
 
 $light-grey: #f7f7f7;
 $light-grey-2: #dedede;
+$light-grey-3: #bdbdbd;
 $dark-grey: #494949;
 
 $lowIndex: 1;
 $middleIndex: 50;
 $highIndex: 100;
+
+$boxShadowInvisible: 0 5px 20px 0 rgba(0,0,0,0);
+$boxShadowInactive: 0px 2px 5px 0px rgba(0,0,0,.16);
+$boxShadowActive: 0px 5px 20px 0px rgba(0,0,0,.16);
 
 /*
  * General Styles
@@ -43,11 +49,11 @@ body {
 
   overflow: hidden;
 
-  background: linear-gradient(
-								rgba(255, 255, 255, 0.8),
-      					rgba(255, 255, 255, 0.8)
-      				),
-							url('../img/guy_hero.jpg') no-repeat center center;
+  // background: linear-gradient(
+	// 							rgba(255, 255, 255, 0.8),
+  //     					rgba(255, 255, 255, 0.8)
+  //     				),
+	// 						url('../img/guy_hero.jpg') no-repeat center center;
 
 	background-size: cover;
 
@@ -61,55 +67,79 @@ body {
  * Nav
  */
 
-nav ul {
+nav {
 
-  list-style: none;
-  position: absolute;
+  display: block;
+  position: fixed;
 
-  top: 10px;
-  right: 30px;
+  width: 100vw;
+  height: 80px;
 
-  li {
+  background: white;
+  box-shadow: $boxShadowInactive;
 
-    font-weight: 700;
-    display: inline-block;
-    margin-right: 20px;
+  z-index: 1000;
 
-    -webkit-transition: color .3s ease;
-            transition: color .3s ease;
+  .logo {
 
-    // &:last-of-type {
-    //
-    //   border: 2px solid $primary-color;
-    //   border-radius: 40px;
-    //   padding: 10px 25px;
-    // }
+    font-weight: 900;
+    font-size: 24px;
+    position: absolute;
+    top: 24px; left: 30px;
+  }
 
-    &:last-of-type  span {
+  ul {
 
-      font-weight: 900;
-      color: white;
-      background: $primary-color;
+    //list-style: none;
+    position: absolute;
 
-      width: 20px;
-      height: 20px;
+    top: 18px;
+    right: 30px;
 
+    li {
+
+      font-weight: 700;
       display: inline-block;
-      position: absolute;
-      top: 0;
-      right: -7px;
+      margin-right: 20px;
 
-      text-align: center;
-      font-size: 12px;
-      line-height: 20px;
+      -webkit-transition: color .3s ease;
+              transition: color .3s ease;
 
-      border-radius: 10px;
-    }
+      color: black;
 
-    &:hover {
+      // &:last-of-type {
+      //
+      //   border: 2px solid $primary-color;
+      //   border-radius: 40px;
+      //   padding: 10px 25px;
+      // }
 
-      color: $primary-color;
-      cursor: pointer;
+      &:last-of-type  span {
+
+        font-weight: 900;
+        color: white;
+        background: $primary-color;
+
+        width: 20px;
+        height: 20px;
+
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: -7px;
+
+        text-align: center;
+        font-size: 12px;
+        line-height: 20px;
+
+        border-radius: 10px;
+      }
+
+      &:hover {
+
+        color: $primary-color;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -184,6 +214,29 @@ nav ul {
 
 }
 
+body.results--in .calendar--wrapper {
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+
+  height: 100vh;
+
+  .calendar--container {
+
+    margin-top: 25%;
+  }
+}
+
 .calendar--container {
 
   width: 600px;
@@ -215,6 +268,11 @@ nav ul {
   text-align: left;
 
   margin-top: 50px;
+
+  opacity: 1;
+
+  -webkit-transition: opacity .3s ease;
+          transition: opacity .3s ease;
 
   li {
 
@@ -804,16 +862,52 @@ a.calendar--detail--chat--send {
           -webkit-transition: opacity $duration ease, -webkit-transform $duration cubic-bezier(0.42, 0.17, 0.02, 0.93) !important;
                   transition: opacity $duration ease, transform $duration cubic-bezier(0.42, 0.17, 0.02, 0.93) !important;
 
-  .entered--zipcode {
+  span.entered--zipcode {
 
-    font-weight: 700;
-    color: $dark-grey;
+    color: $primary-color;
+    font-weight: 400;
+
+    &:focus,
+    &:hover {
+
+      outline: none;
+      background: white;
+    }
   }
 }
 
 .search--results {
 
   display: none;
+
+  span.entered--zipcode {
+
+    color: $primary-color;
+    font-weight: 400;
+
+    box-shadow: $boxShadowInvisible;
+
+    -webkit-transition: box-shadow .3s ease;
+            transition: box-shadow .3s ease;
+
+    &:hover {
+
+      outline: none;
+      background: $light-grey;
+    }
+
+    &:focus {
+
+      background: white;
+      box-shadow: $boxShadowActive;
+      outline: none;
+    }
+
+    &[contentEditable=true]:empty:not(:focus):before {
+
+        content: attr(data-placeholder);
+    }
+  }
 }
 
 .search--submit {
@@ -881,6 +975,96 @@ a.calendar--detail--chat--send {
     color: $dark-grey;
   }
 }
+
+.search--results--profile {
+
+  display: none;
+}
+
+.search--results--profile--card {
+
+  width: 500px;
+  margin: 0 auto;
+
+  img {
+
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 auto;
+    width: 80px;
+  }
+
+  h1 {
+
+    display: block;
+
+    span {
+
+      font-weight: 400;
+      color: $light-grey-3;
+    }
+  }
+
+  h3 {
+
+    margin-top: 30px;
+    display: inline-block;
+    line-height: 30px;
+    border-bottom: 4px solid $light-grey-2;
+  }
+
+  ul.profile--card--services {
+
+    list-style: none;
+    margin-top: 40px;
+
+    li {
+
+      display: inline-block;
+      margin-right: 30px;
+
+      box-shadow: $boxShadowInactive;
+      border-radius: 50%;
+
+      padding: 20px;
+
+      &:last-of-type {
+
+        margin-right: 0;
+      }
+
+      img {
+
+        border-radius: 0;
+        width: 60px;
+      }
+    }
+  }
+}
+
+p.profile--card--description {
+
+  text-align: left;
+  line-height: 24px;
+}
+
+/*
+ * Tooltipster
+ */
+
+ .tooltipster-veyo {
+ 	border-radius: 5px;
+ 	background: white;
+ 	box-shadow: $boxShadowInactive;
+  border: 3px solid $light-grey-2;
+ 	color: black;
+ }
+ .tooltipster-veyo .tooltipster-content {
+ 	font-family: 'Lato', sans-serif;
+ 	font-size: 18px;
+ 	line-height: 20px;
+ 	padding: 13px 15px;
+ }
 
 /*
  * Utilities

@@ -12,19 +12,21 @@
   <link rel="stylesheet" href="css/app.css">
   <link rel="icon" type="image/png" href="img/favicon.png">
 
+  <script src="js/handlebars.js"></script>
+
 </head>
 <body>
 
   <header>
 
-    <div style="font-weight: 900; font-size: 24px; position: absolute; top: 24px; left: 30px;">veyo</div>
-
     <nav>
 
+      <div class="logo">veyo</div>
+
       <ul>
-        <li>My Carers</li>
-        <li>Invoices</li>
-        <li>Notifications</li>
+        <li>{{Navigation.myCarers}}</li>
+        <li>{{Navigation.invoices}}</li>
+        <li>{{Navigation.notifications}}</li>
       </ul>
 
     </nav>
@@ -39,61 +41,89 @@
       <div>
         <div class="calendar--container">
 
+        <!-- Search form START -->
         <div class="search--form">
 
-          <h1>Find carers in <span class="area">your area</span></h1>
+          <h1>{{Search.intro}}</h1>
 
-          <input type="text" class="search--input" placeholder="Enter your zip code to start"/>
-          <a href="#" class="search--submit">Search</a>
+          <input type="text" class="search--input" placeholder="Postleitzahl"/>
+          <a href="#" class="search--submit">{{Search.submit}}</a>
 
         </div>
-        <div class="search--results" style="margin-top: 30%;">
+        <!-- Search form END -->
 
-          <h1>Search results for <span class="entered--zipcode" style="color: #fd6768; font-weight: 400;"></span></h1>
+        <!-- Search results START -->
+        <div class="search--results">
+
+          <h1>{{Search.inArea}} <span class="entered--zipcode tooltip" title="Ort ändern? Klicke hier!" contenteditable="true" data-placeholder="12345"></span>, Berlin</h1>
           <ul>
             <li class="animated delay-animation-300">
-              <img src="img/manon_meerkat.jpg" alt="Manon Meerkat Avatar" />
+              <img src="img/manon.jpg" alt="Manon Avatar" />
 
               <div class="search--carer--details">
-                <h4>Manon Meerkat, 28</h4>
-                <p>Hey, I am a licensed carer in Wedding, Berlin.</p>
-                <a href="#">View Profile</a>
+                <h4>{{Carers.Manon.fullName}}, {{Carers.Manon.age}}</h4>
+                <p>{{Carers.Manon.description}}</p>
+                <a href="#" class="view--profile">{{Search.Results.viewProfile}}</a>
               </div>
 
             </li>
             <li class="animated delay-animation-600">
-              <img src="img/tom_turbo.jpg" alt="Tom Turbo Avatar" />
+              <img src="img/tom.jpg" alt="Tom Avatar" />
 
               <div class="search--carer--details">
-                <h4>Tom Turbo, 34</h4>
-                <p>Helping others is like flying a kite in the summer breeze.</p>
-                <a href="#">View Profile</a>
+                <h4>{{Carers.Tom.fullName}}, {{Carers.Tom.age}}</h4>
+                <p>{{Carers.Tom.description}}</p>
+                <a href="#" class="view-profile is-clickable">{{Search.Results.viewProfile}}</a>
               </div>
 
             </li>
             <li class="animated delay-animation-900">
-              <img src="img/xavier_xtravaganza.jpg" alt="Xavier Xtravaganza Avatar" />
+              <img src="img/xavier.jpg" alt="Xavier Avatar" />
 
               <div class="search--carer--details">
-                <h4>Xavier Xtravaganza, 37</h4>
-                <p>My mission is to bring the world a Zen state of mind.</p>
-                <a href="#">View Profile</a>
+                <h4>{{Carers.Xavier.fullName}}, {{Carers.Xavier.age}}</h4>
+                <p>{{Carers.Xavier.description}}</p>
+                <a href="#" class="view--profile">{{Search.Results.viewProfile}}</a>
               </div>
 
             </li>
             <li class="animated delay-animation-1200">
-              <img src="img/aline_alliteration.jpg" alt="Aline Alliteration Avatar" />
+              <img src="img/allison.jpg" alt="Allison Avatar" />
 
               <div class="search--carer--details">
-                <h4>Aline Alliteration, 29</h4>
-                <p>Alliteration above all.</p>
-                <a href="#">View Profile</a>
+
+                <h4>{{Carers.Allison.fullName}}, {{Carers.Allison.age}}</h4>
+                <p>{{Carers.Allison.description}}</p>
+                <a href="#" class="view--profile">{{Search.Results.viewProfile}}</a>
               </div>
 
             </li>
           </ul>
 
         </div>
+        <!-- Search results END -->
+
+        <!-- Profile START -->
+        <div class="search--results--profile">
+
+          <div class="search--results--profile--card">
+
+            <img src="img/tom.jpg" alt="Tom Avatar" />
+            <h1>{{Carers.Tom.fullName}} <span>{{Carers.Tom.age}}</span></h1>
+            <p class="profile--card--description">{{Carers.Tom.description}} Mixtape seitan Godard Odd Future meditation, Blue Bottle tote bag synth. Cray Austin Thundercats viral American Apparel, wolf irony gastropub. Butcher PBR&B occupy Echo Park.</p>
+
+            <h3>{{Carers.Profile.offeredServices}}</h3>
+            <ul class="profile--card--services">
+              <li><img src="img/icons/food.png" alt="Food"></li>
+              <li><img src="img/icons/physicalactivity.png" alt="Physical Activity"></li>
+              <li><img src="img/icons/transportation.png" alt="Transportation"></li>
+            </ul>
+
+          </div>
+
+        </div>
+
+        <!-- Profile END -->
 
       </div><!-- empty div -->
     </div><!-- /.calendar--container -->
@@ -104,185 +134,10 @@
   <footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script>
+    <script src="js/tooltipster.jquery.js"></script>
 
-    var prevUntil = {},
-        nextUntil = {},
-        calendarRow = $('.calendar--row'),
-        calendarRowDays = $('.calendar--row--days'),
-        calendarDetail = $('.calendar--detail--container'),
-        calendarContainer = $('.calendar--container'),
-        calDay = $('#day')[0],
-        calDate = $('#date')[0],
-        calWeekArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        thisDate = '',
-        dateExtension = '',
-        calendarItems = $('.calendar--container ul li');
-
-    // item interactions
-    calendarItems.on('click', function() {
-
-      thisDate = $(this)[0].innerHTML;
-      thisIndex = $(this).index();
-
-      // needs new extension?
-      if (thisDate === '1' || thisDate === '21' || thisDate === '31') {
-
-        dateExtension = 'st';
-      } else if (thisDate === '2' || thisDate === '22') {
-
-        dateExtension = 'nd';
-      } else if (thisDate === '3' || thisDate === '23') {
-
-        dateExtension = 'rd';
-      } else {
-
-        dateExtension = 'th';
-      }
-
-      // set date
-      calDate.innerHTML = $(this)[0].innerHTML + dateExtension;
-
-      // set day
-      calDay.innerHTML = calWeekArray[thisIndex];
-
-    });
-
-    // row interactions
-    calendarRow.on('click', function() {
-
-      // store everything in vars
-      prevUntil = $(this).prevUntil('.calendar--row--start');
-      nextUntil = $(this).nextUntil('.calendar--row--end');
-
-      // calendar fade-out
-      $(this).removeClass().addClass('calendar--row fade-to-top');
-      prevUntil.removeClass().addClass('calendar--row fade-to-top');
-      nextUntil.removeClass().addClass('calendar--row fade-to-bottom');
-
-      // detail fade-in
-      calendarDetail.removeClass('fade-back-to-place').addClass('is-visible');
-
-      $('.calendar--container h1').addClass('is-hidden');
-
-      calendarContainer.css('z-index', '-1');
-
-    });
-
-    // detect flip end change card size
-    $('.face--back').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-
-      console.log('stuff');
-
-    });
-
-    // on pressing send remove none class and add first message
-    $(document).keypress(function(e) {
-
-      if (e.which == 13) {
-        $('.calendar--detail--chat--send').click();
-      }
-    });
-
-    var messageCount = 0;
-    $('.calendar--detail--chat--send').on('click', function() {
-
-      var inputValue = $('input.calendar--detail--chat--input').val();
-
-      if (messageCount === 0) {
-
-        $('.calendar--detail--chat--content').empty();
-        $('.calendar--detail--chat--input').attr('placeholder', '');
-      }
-
-      $('.calendar--detail--chat--content').removeClass('no-messages').addClass('has-messages');
-      $('.calendar--detail--chat--content').append("<span class='animated fadeInUp'>" + inputValue + "</span><br>");
-
-      $('input.calendar--detail--chat--input').val('');
-
-      messageCount++;
-
-      if (messageCount === 2) {
-
-        $('.calendar--detail--job.not-typing').removeClass('not-typing').addClass('is-typing');
-
-        setTimeout(function(){
-
-          $('.calendar--detail--job.is-typing').removeClass('is-typing').addClass('not-typing');
-
-          $('.calendar--detail--chat--content--response').removeClass('no-response').addClass('has-response');
-          $('.calendar--detail--chat--content--response').append("<span class='animated fadeInUp'>" + "Hello Emma. Replenishing some vitamin C – good thinking!" + "</span><br>");
-        }, 3200);
-      }
-    });
-
-    // flip card
-    $('a.calendar--detail--chat').on('click', function(e) {
-
-      $(this).fadeOut('fast');
-      $('.calendar--detail--body').toggleClass('is-flipped');
-    });
-
-    $('button.reset').on('click', function() {
-
-      calendarRow.removeClass('fade-to-top fade-to-bottom').addClass('fade-back-to-place');
-      calendarRowDays.removeClass('fade-to-top fade-to-bottom').addClass('fade-back-to-place');
-      $('.calendar--container h1').removeClass('is-hidden');
-
-      calendarDetail.removeClass('is-visible').addClass('fade-back-to-place');
-
-      calendarContainer.css('z-index', '100');
-
-      $('.will--have--date').addClass('calendar--date__highlight');
-    });
-
-    $('.calendar--detail--brief').on('focusin', function() {
-
-      $('.calendar--detail--body').addClass('is-focused');
-    });
-
-    $('.calendar--detail--brief').on('focusout', function() {
-
-      $('.calendar--detail--body').removeClass('is-focused');
-    });
-
-    $('.highlight').on('click', function() {
-
-      $('.calendar--container ul li').not('.notification--highlight').addClass('is-transparent');
-    });
-
-    // onboarding
-    $('.calendar--detail--partner').one('click', function() {
-
-      $('ul.mock--dropdown').addClass('is-visible');
-    });
-
-    $('ul.mock--dropdown').on('click', function() {
-
-      $('ul.mock--dropdown').removeClass('is-visible');
-      $('.calendar--detail--partner').text('Tom Turbo')
-      $('.calendar--detail--partner--avatar').addClass('has-icon').empty().append('<img src="img/tom_turbo.jpg">')
-    });
-
-    // search actio
-    $('.search--submit').on('click', function() {
-
-      $('body').addClass('results--in');
-
-      var searchInputValue = $('.search--input').val();
-      $('.search--form').fadeOut('slow', function() {
-
-        $('.search--results').fadeIn('fast', function() {
-
-          $('.search--results ul li').addClass('fadeInUp');
-        });
-      });
-
-      $('.search--in--area').addClass('is-visible');
-      $('.entered--zipcode').text(searchInputValue);
-    });
-
-    </script>
+    <script src="js/templater.jquery.js"></script>
+    <script src="js/app.js"></script>
 
   </footer>
 
